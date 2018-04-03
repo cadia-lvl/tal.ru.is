@@ -1,0 +1,11 @@
+* Vefgátt fyrir talgreini þjálfaðan á frjálsum og opnum gögnum - https://tal.ru.is
+
+  Íslenskur talgreinir hefur verið í þróun hjá [[https://lvl.ru.is][Mál- og raddtæknistofu
+  Gervigreindarseturs Háskólans í Reykjavík]]. Hann er byggður á opna hugbúnaðinum
+  [[https://kaldi-asr.org][Kaldi]] og gögnum sem söfnuð voru í samstarfi við Google. [[https://github.com/cadia-lvl/ice-asr][Opið umhverfi til að
+  þróa talgreina fyrir íslensku]] er núna tilbúið og hægt að nálgast á Github síðu
+  stofunnar. Endanleg útgáfa þessarar vefgáttar ásamt forritaskilum fyrir
+  þjónustuna sem liggur að baki kemur út innan skamms.
+
+  Í möppunni [[./egs][egs]] í þessari Git-lind má finna nokkur dæmi sem sýna hvernig nota
+  má talgreiningarþjónustuna í eigin hugbúnaði.
