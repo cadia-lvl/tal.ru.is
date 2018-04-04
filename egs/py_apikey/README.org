@@ -1,5 +1,5 @@
 * Notkunardæmi - Python-forrit sem greinir tal einnar WAV hljóðskrár
-  Python-forritið [[./recognize.py][=recognize.py=]] sýnir hvernig nota má =SyncRecognize= í Python
+  Python-forritið [[./recognize.py][recognize.py]] sýnir hvernig nota má =SyncRecognize= í Python
   forriti til að greina tal í hljóðskrá.  Til að nota hana þarf fyrst að búa til
   forritaskilalykil (e. /API key/) á [[https://tal.ru.is/stjori/][tal.ru.is/stjori]].  Forritið býst við að
   umhverfisbreytan =TALA_API_KEY= innihaldi forritaskilalykilinn.  Dæmi:
