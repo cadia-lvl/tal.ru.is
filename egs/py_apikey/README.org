@@ -1,13 +1,22 @@
 * Notkunardæmi - Python-forrit sem greinir tal einnar WAV hljóðskrár
-  Python-forritið [[./recognize.py][recognize.py]] sýnir hvernig nota má =SyncRecognize= í Python
-  forriti til að greina tal í hljóðskrá.  Til að nota hana þarf fyrst að búa til
-  forritaskilalykil (e. /API key/) á [[https://tal.ru.is/stjori/][tal.ru.is/stjori]].  Forritið býst við að
+  Python-forritin [[./syncrecognize.py][syncrecognize.py]] og [[./streamingrecognize.py][streamingrecognize.py]] sýna hvernig nota má
+  =SyncRecognize= og =StreamingRecognize= þjónusturnar í Python forriti til að
+  greina tal í hljóðskrá.  Til að nota hana þarf fyrst að búa til
+  forritaskilalykil (e. /API key/) á [[https://tal.ru.is/stjori/][tal.ru.is/stjori]].  Forritin búast við að
   umhverfisbreytan =TALA_API_KEY= innihaldi forritaskilalykilinn.  Dæmi:
   #+BEGIN_SRC shell :exports both
   export TALA_API_KEY=ak_BAj1dO47QmyPvkDKZ4GBq628OpALW9weW1nXaEN7oj5geYzrdRJV1lM0bmDlK5Lr
-  python3 recognize.py ../example_speech.wav
+  python3 syncrecognize.py ../example_speech.wav
   #+END_SRC
 
   #+RESULTS:
   : fimmtudögunum
 
+  eða
+  #+BEGIN_SRC shell :exports both
+  export TALA_API_KEY=ak_BAj1dO47QmyPvkDKZ4GBq628OpALW9weW1nXaEN7oj5geYzrdRJV1lM0bmDlK5Lr
+  python3 streamingrecognize.py ../example_speech.wav
+  #+END_SRC
+
+  #+RESULTS:
+  : fimmtudögunum
