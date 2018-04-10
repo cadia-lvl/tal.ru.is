@@ -26,45 +26,57 @@ import base64
 import os
 import json
 from time import sleep
+from threading import Thread
 import wave
+from collections import OrderedDict
 
 from ws4py.client.threadedclient import WebSocketClient
 
 class StreamingRecognizeClient(WebSocketClient):
     def __init__(self, wav_path, *args, **kwargs):
         self.wav_path = wav_path
+        self.transcripts = OrderedDict()
         super(StreamingRecognizeClient, self).__init__(*args, **kwargs)
 
     def opened(self):
-        with wave.open(self.wav_path, 'r') as wav:
-            sample_rate = wav.getframerate()
-            nframes = wav.getnframes()
-            chunk_width = 800
+        def run():
+            with wave.open(self.wav_path, 'r') as wav:
+                sample_rate = wav.getframerate()
+                nframes = wav.getnframes()
+                chunk_width = 800
 
-            self.send(json.dumps(
-                {'streamingConfig': {'config': {'sampleRate': sample_rate,
-                                                'wordAlignment': False},
-                                     'interimResults': True}}))
-
-            while True:
-                chunk = wav.readframes(chunk_width)
-                if not chunk:
-                    break
-                b64chunk = base64.b64encode(chunk)
                 self.send(json.dumps(
-                    {'audioContent': b64chunk.decode('utf-8')}))
+                    {'streamingConfig': {'config': {'sampleRate': sample_rate,
+                                                    'wordAlignment': False},
+                                         'interimResults': True}}))
 
-            self.send(json.dumps({'audioContent': ''}))
+
+                while True:
+                    chunk = wav.readframes(chunk_width)
+                    if not chunk:
+                        break
+                    b64chunk = base64.b64encode(chunk)
+                    self.send(json.dumps(
+                        {'audioContent': b64chunk.decode('utf-8')}))
+
+                self.send(json.dumps({'audioContent': ''}))
+        Thread(target=run).start()
 
     def closed(self, code, reason=None):
         print('')
 
     def received_message(self, m):
         try:
-            transcript = json.loads(m.data.decode('utf-8'))['result']['results'][0]['alternatives'][0]['transcript']
-            print("\r{}".format(transcript), flush=True, end='')
+            response = json.loads(m.data.decode('utf-8'))
+            transcript = response['result']['results'][0]['alternatives'][0]['transcript']
+            result_index = response['result'].get('resultIndex', 0)
+            is_final = response['result']['results'][0].get('isFinal', False)
+            self.transcripts[result_index] = transcript
         except KeyError as e:
             pass
+
+        print('\r{}'.format(''.join(val for key, val in self.transcripts.items())),
+              end='', flush=True)
 
 
 def parse_args():
